@@ -1,0 +1,53 @@
+appId: org.doconstruct.desktop
+productName: DOConstruct
+asar: true
+electronDist: node_modules/electron/dist
+npmRebuild: false
+directories:
+  output: dist
+files:
+  - src/main.cjs
+  - src/preload.cjs
+  - src/runtime.cjs
+  - src/backend/**
+  - src/ai/**
+  - static/**
+  - templates/**
+  - package.json
+extraResources:
+  - from: docs
+    to: docs
+  - from: API.md
+    to: API.md
+  - from: resources/skills
+    to: skills
+  - from: resources/vendor
+    to: vendor
+  - from: examples
+    to: examples
+  - from: resources/THIRD_PARTY.md
+    to: THIRD_PARTY.md
+  - from: resources/licenses
+    to: licenses
+  - from: resources/icon.png
+    to: icon.png
+  - from: resources/icon.ico
+    to: icon.ico
+win:
+  icon: resources/icon.ico
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+  signExecutable: false
+nsis:
+  artifactName: DOConstruct-Setup-${version}-${arch}.${ext}
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+portable:
+  artifactName: DOConstruct-Portable-${version}-${arch}.${ext}
+artifactName: DOConstruct-${version}-${arch}.${ext}

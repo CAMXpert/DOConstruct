@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "title": "我的文档",
+  "sections": [
+    {"id":"introduction","title":"引言","path":"sections/01-introduction.md","enabled":true},
+    {"id":"details","title":"正文","path":"sections/02-details.md","enabled":true}
+  ],
+  "style": {"fontFamily":"Times New Roman","fontSizePt":12,"lineHeight":1.5,"pageSize":"A4","marginTopMm":20,"marginRightMm":20,"marginBottomMm":20,"marginLeftMm":20},
+  "layoutScript": "layout.py",
+  "stylesheet": "layout.css",
+  "pythonModules": []
+}

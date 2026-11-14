@@ -1,0 +1,16 @@
+{
+  "name": "paper-and-patent-writing",
+  "title": "论文与专利写作",
+  "origin": "User-provided Codex skill",
+  "bundled": "2026-11-12",
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "55cac818ad413d283402ae7f59ad87d4969ad80397555a6cbbbe0991c978036f"
+    },
+    {
+      "path": "scripts/assemble.py",
+      "sha256": "6645da6afde7fdbedda0ac3c96f3bcb41c95a7fbd83277421fa5f8088f3c0237"
+    }
+  ]
+}

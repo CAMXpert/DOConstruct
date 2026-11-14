@@ -1,0 +1,27 @@
+node_modules/
+.tools/
+dist/
+build/
+*.log
+
+# Downloaded runtimes; keep the lock manifest needed to reproduce them.
+/resources/vendor/*
+!/resources/vendor/MANIFEST.json
+
+# Local development records and handoffs are not part of the source release.
+/TASK_PLAN.md
+/build-python-versions.json
+/HANDOFF*.md
+/handoff*.md
+/COMMUNICATION*.md
+/communication*.md
+
+# User credentials, conversations, document caches, and Python cache files.
+.env
+.env.*
+!.env.example
+ai-settings.json
+ai-history/
+.doconstruct/
+__pycache__/
+*.py[cod]

@@ -1,0 +1,158 @@
+[
+  {
+    "package": "codemirror",
+    "file": "codemirror__LICENSE"
+  },
+  {
+    "package": "crelt",
+    "file": "crelt__LICENSE"
+  },
+  {
+    "package": "style-mod",
+    "file": "style-mod__LICENSE"
+  },
+  {
+    "package": "w3c-keyname",
+    "file": "w3c-keyname__LICENSE"
+  },
+  {
+    "package": "@codemirror/autocomplete",
+    "file": "codemirror__autocomplete__LICENSE"
+  },
+  {
+    "package": "@codemirror/commands",
+    "file": "codemirror__commands__LICENSE"
+  },
+  {
+    "package": "@codemirror/lang-css",
+    "file": "codemirror__lang-css__LICENSE"
+  },
+  {
+    "package": "@codemirror/lang-html",
+    "file": "codemirror__lang-html__LICENSE"
+  },
+  {
+    "package": "@codemirror/lang-javascript",
+    "file": "codemirror__lang-javascript__LICENSE"
+  },
+  {
+    "package": "@codemirror/lang-json",
+    "file": "codemirror__lang-json__LICENSE"
+  },
+  {
+    "package": "@codemirror/lang-markdown",
+    "file": "codemirror__lang-markdown__LICENSE"
+  },
+  {
+    "package": "@codemirror/lang-python",
+    "file": "codemirror__lang-python__LICENSE"
+  },
+  {
+    "package": "@codemirror/language",
+    "file": "codemirror__language__LICENSE"
+  },
+  {
+    "package": "@codemirror/legacy-modes",
+    "file": "codemirror__legacy-modes__LICENSE"
+  },
+  {
+    "package": "@codemirror/lint",
+    "file": "codemirror__lint__LICENSE"
+  },
+  {
+    "package": "@codemirror/search",
+    "file": "codemirror__search__LICENSE"
+  },
+  {
+    "package": "@codemirror/state",
+    "file": "codemirror__state__LICENSE"
+  },
+  {
+    "package": "@codemirror/streamparser",
+    "file": "codemirror__streamparser__LICENSE"
+  },
+  {
+    "package": "@codemirror/theme-one-dark",
+    "file": "codemirror__theme-one-dark__LICENSE"
+  },
+  {
+    "package": "@codemirror/view",
+    "file": "codemirror__view__LICENSE"
+  },
+  {
+    "package": "@lezer/common",
+    "file": "lezer__common__LICENSE"
+  },
+  {
+    "package": "@lezer/css",
+    "file": "lezer__css__LICENSE"
+  },
+  {
+    "package": "@lezer/highlight",
+    "file": "lezer__highlight__LICENSE"
+  },
+  {
+    "package": "@lezer/html",
+    "file": "lezer__html__LICENSE"
+  },
+  {
+    "package": "@lezer/javascript",
+    "file": "lezer__javascript__LICENSE"
+  },
+  {
+    "package": "@lezer/json",
+    "file": "lezer__json__LICENSE"
+  },
+  {
+    "package": "@lezer/lr",
+    "file": "lezer__lr__LICENSE"
+  },
+  {
+    "package": "@lezer/markdown",
+    "file": "lezer__markdown__LICENSE"
+  },
+  {
+    "package": "@lezer/python",
+    "file": "lezer__python__LICENSE"
+  },
+  {
+    "package": "@marijn/find-cluster-break",
+    "file": "marijn__find-cluster-break__LICENSE"
+  },
+  {
+    "package": "@codemirror/merge",
+    "file": "codemirror__merge__LICENSE"
+  },
+  {
+    "package": "argparse",
+    "file": "argparse__LICENSE"
+  },
+  {
+    "package": "diff",
+    "file": "diff__LICENSE"
+  },
+  {
+    "package": "entities",
+    "file": "entities__LICENSE"
+  },
+  {
+    "package": "linkify-it",
+    "file": "linkify-it__LICENSE"
+  },
+  {
+    "package": "markdown-it",
+    "file": "markdown-it__LICENSE"
+  },
+  {
+    "package": "mdurl",
+    "file": "mdurl__LICENSE"
+  },
+  {
+    "package": "punycode.js",
+    "file": "punycode.js__LICENSE-MIT.txt"
+  },
+  {
+    "package": "uc.micro",
+    "file": "uc.micro__LICENSE.txt"
+  }
+]

@@ -1,0 +1,10 @@
+/* Font, size, leading and page margins come from the project style controls.
+   Add project-specific typography here; the same stylesheet is used for PDF. */
+body { color: #20242b; }
+h1, h2, h3 { line-height: 1.2; font-weight: 600; }
+p { margin: 0 0 .85em; }
+section { margin-bottom: 1.5em; }
+blockquote { border-left: 3px solid #ccd5e1; margin-left: 0; padding-left: 1em; }
+pre { font-size: .85em; background: #f3f5f7; padding: .8em; }
+math[display="block"] { margin: 1em 0; }
+@media print { body { margin: 0; } a { color: inherit; } }

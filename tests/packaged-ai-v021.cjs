@@ -1,0 +1,33 @@
+const { _electron }=require('playwright-core');
+const fs=require('node:fs/promises'),path=require('node:path'),http=require('node:http');
+const root=process.cwd(),stage=path.join(root,'build/release-v021/packaged-check');let app,page,server;let rounds=0;const checks=[];
+const after='const message = "syntax colors stay visible";\nconsole.log(message);\n';
+const check=(value,name)=>{if(!value)throw Error(name);checks.push(name);};
+const tool=(name,args)=>({id:name,type:'function',function:{name,arguments:JSON.stringify(args)}});
+async function call(method,args={}){const r=await page.evaluate(([m,a])=>window.doconstruct.invoke(m,a),[method,args]);if(!r.ok)throw Error(JSON.stringify(r.error));return r;}
+(async()=>{
+ await fs.mkdir(stage,{recursive:true});
+ server=http.createServer(async(req,res)=>{for await(const data of req){};const tool_calls=rounds++===0?[tool('read_file',{path:'code.js'})]:rounds===2?[tool('write_file',{path:'code.js',content:after})]:null;res.setHeader('Content-Type','application/json');res.end(JSON.stringify({choices:[{message:{role:'assistant',content:tool_calls?null:'## 修改完成\n\n**保留語法配色**，可查看紅綠差異。\n\n- 已修改 code.js\n- 預覽未重跑',...(tool_calls?{tool_calls}:{})}}]}));});
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));
+ const executablePath=path.join(root,'dist/win-unpacked/DOConstruct.exe');
+ app=await _electron.launch({executablePath,args:['--user-data-dir='+path.join(stage,'profile')],timeout:60000});page=await app.firstWindow();await page.waitForSelector('.cm-editor');
+ const info=await call('app.info');check(info.packaged&&info.version==='0.2.1','Real DOConstruct 0.2.1 package');
+ await page.evaluate(()=>{window.__proof=[];window.doconstruct.onEvent(e=>window.__proof.push(e));});
+ const project=path.join(stage,'review-project');await call('project.new',{path:project,options:{kind:'blank',title:'AI 修改與語法差異'}});
+ await call('file.save',{path:'code.js',content:'const x = "before";\n',version:null});
+ await page.locator('#files-tab').click();await page.locator('#refresh-files').click();await page.waitForSelector('.file-row[data-path="code.js"]');
+ check(await page.locator('.file-row[data-path="code.js"] svg.file-icon').count()===1,'Packaged file tree uses colored type icon');
+ await page.locator('#toggle-ai').click();await call('ai.configure',{baseUrl:`http://127.0.0.1:${server.address().port}/v1`,model:'local-release-check',apiMode:'chat-completions'});
+ const id=(await call('ai.send',{message:'修改 code.js 並顯示改動',skillId:'paper-and-patent-writing'})).jobId;
+ await page.waitForFunction(id=>window.__proof.some(e=>e.type==='ai'&&e.job.id===id&&['completed','failed'].includes(e.job.status)),id,{timeout:30000});
+ const events=await page.evaluate(()=>window.__proof);const done=events.filter(e=>e.type==='ai'&&e.job.id===id).at(-1).job;check(done.status==='completed','Real packaged harness changed actual file');check(rounds===3,'Tool results returned through three HTTP model turns');check((await fs.readFile(path.join(project,'code.js'),'utf8'))===after,'Actual saved after-content matches');check(!events.some(e=>e.type==='job'),'AI changes do not build document preview');
+ check(await page.locator('#ai-messages .ai-markdown h2').count()===1,'AI Markdown is rendered in actual package');
+ await page.locator('#ai-changes').click();await page.locator('#ai-change-files [data-path="code.js"]').click();
+ await page.waitForSelector('.change-diff-added');await page.waitForSelector('.change-diff-removed');
+ const colors=await page.evaluate(()=>[...new Set([...document.querySelectorAll('#ai-change-view .cm-line span')].map(e=>getComputedStyle(e).color))]);check(colors.length>=3,'Diff retains multi-color JavaScript syntax');
+ const background=await page.evaluate(()=>({removed:getComputedStyle(document.querySelector('.change-diff-removed')).backgroundColor,added:getComputedStyle(document.querySelector('.change-diff-added')).backgroundColor}));check(background.added!==background.removed,'Added/deleted backgrounds distinguish changes');
+ await page.screenshot({path:path.join(stage,'syntax-colored-diff.png')});
+ await page.locator('#ai-change-full').click();check(await page.locator('.change-diff[data-mode="full"]').count()===1,'Complete before/after mode works');
+ await fs.writeFile(path.join(stage,'CLOSED.json'),JSON.stringify({ok:true,checks,info,rounds,colors,background,model:'Local HTTP fixture; real packaged file tools and editor',screenshot:path.join(stage,'syntax-colored-diff.png')},null,2));
+ await app.close();server.closeAllConnections();await new Promise(r=>server.close(r));console.log('PACKAGED DIFF PASS',checks.length);
+})().catch(async e=>{await fs.mkdir(stage,{recursive:true});await fs.writeFile(path.join(stage,'CLOSED.json'),JSON.stringify({ok:false,error:e.stack,checks},null,2));try{await page?.screenshot({path:path.join(stage,'failure.png')});}catch{}try{await app?.close();}catch{}server?.closeAllConnections();server?.close();console.error(e);process.exitCode=1;});

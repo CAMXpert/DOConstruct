@@ -1,0 +1,30 @@
+const {_electron}=require('playwright-core');
+const fs=require('node:fs/promises'),path=require('node:path');
+const root=path.resolve('.'),stage=path.join(root,'build/packaged-ui-v02'),executable=path.join(root,'dist/win-unpacked/DOConstruct.exe');
+let application;
+async function main(){
+ await fs.mkdir(stage,{recursive:true});
+ const env={...process.env};delete env.ELECTRON_RUN_AS_NODE;
+ application=await _electron.launch({executablePath:executable,args:['--user-data-dir='+path.join(stage,'profile')],cwd:root,env,timeout:30000});
+ const page=await application.firstWindow();await page.waitForSelector('.cm-editor');
+ await application.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].setBounds({width:1900,height:1050}));
+ const call=(method,args={})=>page.evaluate(([m,a])=>window.doconstruct.invoke(m,a),[method,args]);
+ const info=await call('app.info');if(!info.packaged||info.version!=='0.2.0')throw Error('Expected actual packaged DOConstruct 0.2.0');
+ const project=await call('project.open',{path:path.join(root,'build/paper-acceptance/source-copy')});
+ await page.waitForFunction(()=>!document.getElementById('build').disabled);
+ await page.locator('#outline-list .file-button').nth(1).click();
+ await page.locator('#files-tab').click();
+ await page.locator('.file-row[data-path="assets"] .file-name').click();
+ await page.locator('#toggle-ai').click();
+ await page.waitForFunction(()=>document.getElementById('ai-skill').options.length>1);
+ await page.locator('#ai-skill').selectOption('paper-and-patent-writing');
+ await page.locator('#build').click();
+ await page.waitForFunction(()=>!document.getElementById('preview').hidden&&document.getElementById('job-state').textContent.startsWith('完成'),null,{timeout:30000});
+ await page.frameLocator('#preview').locator('img').first().waitFor();
+ const frame=page.frames().find(f=>f.url().includes('preview.html'));if(!frame)throw Error('Missing actual paper preview');
+ await frame.evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.images].map(i=>i.decode()));document.querySelector('img').scrollIntoView({block:'center'});});
+ await page.screenshot({path:path.join(stage,'DOConstruct-0.2.0-workbench.png')});
+ await fs.writeFile(path.join(stage,'CLOSED.json'),JSON.stringify({ok:true,info,executable,screenshot:path.join(stage,'DOConstruct-0.2.0-workbench.png'),scope:'One screenshot of packaged app only, actual paper copy; no product modifications or full revalidation.'},null,2));
+ await application.close();console.log('PACKAGED V02 SCREENSHOT PASS');
+}
+main().catch(async error=>{console.error(error);await fs.mkdir(stage,{recursive:true});await fs.writeFile(path.join(stage,'CLOSED.json'),JSON.stringify({ok:false,error:error.stack},null,2));await application?.close();process.exitCode=1;});

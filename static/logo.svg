@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <title>DOConstruct — assemble content into a document</title>
+  <rect x="3" y="13" width="15" height="10" rx="2.5" fill="#E5E5E5"/>
+  <rect x="3" y="28" width="15" height="10" rx="2.5" fill="#B6B6B6"/>
+  <rect x="3" y="43" width="15" height="10" rx="2.5" fill="#858585"/>
+  <path d="M23 29L27 33L23 37" fill="none" stroke="#CFCFCF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M36 7H50L60 17V53C60 55.2 58.2 57 56 57H36C33.8 57 32 55.2 32 53V11C32 8.8 33.8 7 36 7Z" fill="#F4F4F4"/>
+  <path d="M50 7V14C50 16.2 51.8 18 54 18H60" fill="#C0C0C0"/>
+  <rect x="38" y="25" width="16" height="5" rx="1.5" fill="#6B6B6B"/>
+  <rect x="38" y="35" width="16" height="5" rx="1.5" fill="#929292"/>
+  <rect x="38" y="45" width="16" height="5" rx="1.5" fill="#B5B5B5"/>
+</svg>
